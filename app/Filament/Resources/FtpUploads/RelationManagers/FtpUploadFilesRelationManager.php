@@ -104,7 +104,7 @@ class FtpUploadFilesRelationManager extends RelationManager
                             $absolutePath = Storage::disk('public')->path($filePath);
 
                             // Dispatch individual job. Notification logic moved to Job.
-                            UploadToFtpJob::dispatch($fileRecord->id, $absolutePath);
+                            UploadToFtpJob::dispatch($fileRecord->id, $absolutePath)->onQueue('ftp-upload');
                         }
 
                         \Filament\Notifications\Notification::make()
