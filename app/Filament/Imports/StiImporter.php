@@ -73,9 +73,16 @@ class StiImporter extends Importer
         ];
     }
 
-    public function resolveRecord(): Sti
+    public function resolveRecord(): ?Sti
     {
-        return new Sti();
+        // return Sti::where('terminal_id', trim($this->data['terminal_id']))
+        //     ->where('trans_date', trim($this->data['trans_date']))
+        //     ->first();
+        return Sti::firstOrNew([
+            'terminal_id' => $this->data['terminal_id'],
+            'trans_date'  => Carbon::parse($this->data['trans_date'])
+                ->format('Y-m-d H:i:s'),
+        ]);
     }
 
     public static function getCompletedNotificationBody(Import $import): string
